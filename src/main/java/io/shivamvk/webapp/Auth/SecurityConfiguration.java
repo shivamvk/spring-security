@@ -47,7 +47,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-				.sessionAuthenticationErrorUrl("/session_expired")
 				
 				.and()
 				
@@ -62,9 +61,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				
 				.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/").and()
+				.logoutSuccessUrl("/login")
+				
+				.and()
+				
 				.exceptionHandling()
-				.accessDeniedPage("/access-denied");
+					.accessDeniedPage("/access-denied");
 	}
 
 	@Override

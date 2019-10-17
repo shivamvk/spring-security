@@ -10,6 +10,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 import java.util.*;
 
@@ -23,18 +27,26 @@ public class UserModel {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
+	@NotNull(message="This field is mandatory")
 	@Column(name="first_name")
 	private String firstName;
 	
+	@NotNull(message="This field is mandatory")
 	@Column(name="last_name")
 	private String lastName;
 	
+	@NotNull(message="This field is mandatory")
+	@Email(message="Enter a valid email")
 	@Column(name="email")
 	private String email;
 	
+	@NotNull(message="This field is mandatory")
+	@Length(min = 10, max = 10, message="Enter a valid mobile number")
 	@Column(name="phone")
 	private String phone;
 	
+	@NotNull(message="This field is mandatory")
+	@Length(min=6, message="Password should be atleast 6 characters")
 	@Column(name="password")
 	private String password;
 	

@@ -41,6 +41,13 @@ public class AuthenticationController {
 		return modelAndView;
 	}
 	
+	@GetMapping(value="/adminhome")
+	public ModelAndView adminhome() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("adminhome");
+		return modelAndView;
+	}
+	
 	@PostMapping(value="/register")
 	public ModelAndView register(@Valid UserModel user, BindingResult bindingResult, ModelMap modelMap) {
 		ModelAndView modelAndView = new ModelAndView();

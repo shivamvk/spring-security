@@ -21,8 +21,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
     private DataSource dataSource;
+	
+	@Autowired
+	private CustomLoginSuccessHandler customLoginSuccessHandler;
     
-	private String usersQuery = "select email, password, '1' as enabled from user where email=? and status='VERIFIED'";
+	private String usersQuery = "select email, password, '1' as enabled from user where email=?";
 
 	private String rolesQuery = "select u.email, r.role_name from user u inner join user_role ur on(u.user_id=ur.user_id) inner join role r on(ur.role_id=r.role_id) where u.email=?";
 
@@ -41,9 +44,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/").permitAll()
 				.antMatchers("/login").permitAll()
 				.antMatchers("/register").permitAll()
-				.antMatchers("/home/**")
-					.hasAnyAuthority("SUPER_USER", "ADMIN_USER", "SITE_USER")
-					.anyRequest().authenticated()
+				.antMatchers("/home/**").hasAnyAuthority("SUPER_USER", "ADMIN_USER", "SITE_USER")
+				.antMatchers("/adminhome/**").hasAnyAuthority("SUPER_USER","ADMIN_USER")
+				.anyRequest().authenticated()
 					
 				.and()
 				
@@ -55,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.csrf().disable().formLogin()
 				.loginPage("/login")
 				.failureUrl("/login?error=true")
-				.defaultSuccessUrl("/home")
+				.successHandler(customLoginSuccessHandler)
 				.usernameParameter("email")
 				.passwordParameter("password")
 				
